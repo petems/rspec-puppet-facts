@@ -8,17 +8,24 @@ describe 'RspecPuppetFacts' do
       subject { on_supported_os() }
 
       context 'Without metadata.json' do
+        before(:all) do
+          File.stubs('file?')
+          File.stubs('read')
+          File.expects('file?').with('metadata.json').returns false
+        end
         it 'should fail' do
           expect { subject }.to raise_error(StandardError, /Can't find metadata.json/)
         end
       end
 
       context 'With a metadata.json' do
-        fixture = File.read('spec/fixtures/metadata.json')
-        File.stubs('file?')
-        File.stubs('read')
-        File.expects('file?').with('metadata.json').returns true
-        File.expects('read').with('metadata.json').returns fixture
+        before(:all) do
+          fixture = File.read('spec/fixtures/metadata.json')
+          File.stubs('file?')
+          File.stubs('read')
+          File.expects('file?').with('metadata.json').returns true
+          File.expects('read').with('metadata.json').returns fixture
+        end
         it 'should return a hash' do
           expect( on_supported_os().class ).to eq Hash
         end
