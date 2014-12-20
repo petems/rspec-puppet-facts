@@ -6,6 +6,8 @@ include RspecPuppetFacts
 RSpec.configure do |config|
   config.mock_framework = :mocha
 
+  config.order = :random
+
   config.before(:each) {
     $stdout.sync = true
     $stderr.sync = true
