@@ -127,8 +127,9 @@ describe 'RspecPuppetFacts' do
         )
       }
 
-      it 'should fail' do
-        expect { subject }.to raise_error(StandardError, /Can't find facts for 'debian-4-x86_64'/)
+      it 'should give warning' do
+        subject
+        $stderr.string.should include "Can't find facts for 'debian-4-x86_64' for facter"
       end
     end
   end
